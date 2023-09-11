@@ -1,10 +1,10 @@
 {
-    "id": "mattermost-plugin-template",
-    "name": "Mattermost plugin template",
-    "description": "Mattermost plugin template",
+    "id": "mattermost-plugin-msteams-monitor",
+    "name": "Mattermost plugin MS Teams monitor",
+    "description": "Plugin to monitor working of Mattermost plugin MS Teams",
     "icon_path": "assets/starter-template-icon.svg",
     "version": "0.0.1",
-    "min_server_version": "6.5.0",
+    "min_server_version": "7.0.0",
     "server": {
         "executables": {
             "linux-amd64": "server/dist/plugin-linux-amd64",
@@ -14,19 +14,23 @@
             "windows-amd64": "server/dist/plugin-windows-amd64.exe"
         }
     },
-    "webapp": {
-        "bundle_path": "webapp/dist/main.js"
-    },
     "settings_schema": {
         "header": "",
         "footer": "",
         "settings": [
             {
-                "key": "mockClientBaseURL",
-                "display_name": "Base URL of the mock client API",
+                "key": "msteamsTeamId",
+                "display_name": "MS Teams Team ID",
                 "type": "text",
-                "help_text": "Enter base URL of the mock client API",
-                "default": "https://jsonplaceholder.typicode.com"
+                "help_text": "Microsoft Teams Team ID",
+                "default": ""
+            },
+            {
+                "key": "msteamsUserId",
+                "display_name": "MS Teams User ID",
+                "type": "text",
+                "help_text": "Microsoft Teams User ID",
+                "default": ""
             }
         ]
     }

@@ -2,19 +2,15 @@ package plugin
 
 import (
 	"net/http"
-	"path/filepath"
 	"reflect"
 	"sync"
 
 	"github.com/gorilla/mux"
-	"github.com/pkg/errors"
 
 	pluginapi "github.com/mattermost/mattermost-plugin-api"
-	"github.com/mattermost/mattermost-server/v6/model"
 	"github.com/mattermost/mattermost-server/v6/plugin"
 
-	"github.com/mattermost/mattermost-plugin-template/server/config"
-	"github.com/mattermost/mattermost-plugin-template/server/constants"
+	"github.com/brightscout/mattermost-plugin-msteams-monitor/server/config"
 )
 
 // Plugin implements the interface expected by the Mattermost server to communicate between the server and plugin processes.
@@ -39,6 +35,8 @@ type Plugin struct {
 // getConfiguration retrieves the active configuration under lock, making it safe to use
 // concurrently. The active configuration may change underneath the client of this method, but
 // the struct returned by this API call is considered immutable.
+// TODO: remove below line later
+// nolint:all
 func (p *Plugin) getConfiguration() *config.Configuration {
 	p.configurationLock.RLock()
 	defer p.configurationLock.RUnlock()
@@ -77,23 +75,7 @@ func (p *Plugin) setConfiguration(configuration *config.Configuration) {
 	p.configuration = configuration
 }
 
-// Initializes a bot user
-func (p *Plugin) initBotUser() error {
-	botID, err := p.client.Bot.EnsureBot(&model.Bot{
-		Username:    constants.BotUsername,
-		DisplayName: constants.BotDisplayName,
-		Description: constants.BotDescription,
-	}, pluginapi.ProfileImagePath(filepath.Join("public/assets", "example-bot.png")))
-
-	if err != nil {
-		return errors.Wrap(err, "cannot create bot")
-	}
-
-	p.botUserID = botID
-	return nil
-}
-
 // ServeHTTP demonstrates a plugin that handles HTTP requests.
-func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
+func (p *Plugin) ServeHTTP(_ *plugin.Context, w http.ResponseWriter, r *http.Request) {
 	p.router.ServeHTTP(w, r)
 }

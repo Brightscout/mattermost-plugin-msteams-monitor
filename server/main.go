@@ -3,7 +3,7 @@ package main
 import (
 	mattermostPlugin "github.com/mattermost/mattermost-server/v6/plugin"
 
-	"github.com/mattermost/mattermost-plugin-template/server/plugin"
+	"github.com/brightscout/mattermost-plugin-msteams-monitor/server/plugin"
 )
 
 func main() {
