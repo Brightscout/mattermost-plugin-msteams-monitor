@@ -4,8 +4,10 @@ import (
 	"github.com/pkg/errors"
 
 	pluginapi "github.com/mattermost/mattermost-plugin-api"
+	"github.com/mattermost/mattermost-server/v6/model"
 
 	"github.com/brightscout/mattermost-plugin-msteams-monitor/server/config"
+	"github.com/brightscout/mattermost-plugin-msteams-monitor/server/constants"
 )
 
 // Invoked when configuration changes may have been made.
@@ -39,6 +41,17 @@ func (p *Plugin) OnActivate() error {
 	if err := p.OnConfigurationChange(); err != nil {
 		return err
 	}
+
+	// TODO: Update icon later
+	botID, err := p.client.Bot.EnsureBot(&model.Bot{
+		Username:    constants.BotUsername,
+		DisplayName: constants.BotDisplayName,
+		Description: constants.BotDescription,
+	}, pluginapi.ProfileImagePath("public/assets/example-bot.png"))
+	if err != nil {
+		return err
+	}
+	p.botUserID = botID
 
 	command, err := p.getCommand()
 	if err != nil {
