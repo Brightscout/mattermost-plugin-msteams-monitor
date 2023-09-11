@@ -12,30 +12,15 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost-plugin-template/server/constants"
-	"github.com/mattermost/mattermost-plugin-template/server/serializers"
+	"github.com/brightscout/mattermost-plugin-msteams-monitor/server/serializers"
 )
 
 type Client interface {
-	// TODO: Below is for demo purposes only remove it later
-	GetMockPosts() ([]*serializers.DummyPost, int, error)
 }
 
 type client struct {
 	plugin     *Plugin
 	httpClient *http.Client
-}
-
-// TODO: Below is for demo purposes only remove it later
-// This is a sample API call to a mock server available at "https://jsonplaceholder.typicode.com/posts" which returns some dummy posts
-func (c *client) GetMockPosts() ([]*serializers.DummyPost, int, error) {
-	var posts []*serializers.DummyPost
-	_, statusCode, err := c.CallJSON(c.plugin.getConfiguration().MockClientBaseURL, constants.PathGetMockPosts, http.MethodGet, nil, &posts, nil)
-	if err != nil {
-		return nil, statusCode, err
-	}
-
-	return posts, statusCode, nil
 }
 
 // Wrapper to make REST API requests with "application/json" type content

@@ -17,8 +17,8 @@ import (
 // If you add non-reference types to your configuration struct, be sure to rewrite Clone as a deep
 // copy appropriate for your types.
 type Configuration struct {
-	// TODO: Below is for demo purposes only remove it later
-	MockClientBaseURL string `json:"mockClientBaseURL"`
+	MSTeamsTeamID string `json:"msteamsTeamId"`
+	MSTeamsUserID string `json:"msteamsUserId"`
 }
 
 // Clone shallow copies the configuration. Your implementation may require a deep copy if
@@ -30,15 +30,20 @@ func (c *Configuration) Clone() *Configuration {
 
 // Used for post-processing on the configuration.
 func (c *Configuration) ProcessConfiguration() error {
-	c.MockClientBaseURL = strings.TrimSpace(c.MockClientBaseURL)
+	c.MSTeamsTeamID = strings.TrimSpace(c.MSTeamsTeamID)
+	c.MSTeamsUserID = strings.TrimSpace(c.MSTeamsUserID)
 
 	return nil
 }
 
 // Used for config validations.
 func (c *Configuration) IsValid() error {
-	if c.MockClientBaseURL == "" {
-		return fmt.Errorf("mockClientBaseURL should not be empty")
+	if c.MSTeamsTeamID == "" {
+		return fmt.Errorf("MSTeamsTeamID should not be empty")
+	}
+
+	if c.MSTeamsUserID == "" {
+		return fmt.Errorf("MSTeamsUserID should not be empty")
 	}
 
 	return nil

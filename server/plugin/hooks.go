@@ -5,7 +5,7 @@ import (
 
 	pluginapi "github.com/mattermost/mattermost-plugin-api"
 
-	"github.com/mattermost/mattermost-plugin-template/server/config"
+	"github.com/brightscout/mattermost-plugin-msteams-monitor/server/config"
 )
 
 // Invoked when configuration changes may have been made.
@@ -37,10 +37,6 @@ func (p *Plugin) OnActivate() error {
 	p.client = pluginapi.NewClient(p.API, p.Driver)
 
 	if err := p.OnConfigurationChange(); err != nil {
-		return err
-	}
-
-	if err := p.initBotUser(); err != nil {
 		return err
 	}
 

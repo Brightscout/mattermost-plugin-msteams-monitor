@@ -7,8 +7,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/mattermost/mattermost-plugin-template/server/constants"
-	"github.com/mattermost/mattermost-plugin-template/server/serializers"
+	"github.com/brightscout/mattermost-plugin-msteams-monitor/server/constants"
+	"github.com/brightscout/mattermost-plugin-msteams-monitor/server/serializers"
 )
 
 // Initializes the plugin REST API
@@ -25,37 +25,7 @@ func (p *Plugin) InitAPI() *mux.Router {
 func (p *Plugin) InitRoutes() {
 	p.Client = InitClient(p)
 
-	s := p.router.PathPrefix(constants.APIPrefix).Subrouter()
-
-	// TODO: Below are for demo purpose remove them later
-	s.HandleFunc(constants.PathGetMe, p.handleAuthRequired(p.handleGetMe)).Methods(http.MethodGet)
-	s.HandleFunc(constants.PathGetMockPosts, p.handleAuthRequired(p.handleGetDummyPosts)).Methods(http.MethodGet)
-}
-
-// TODO: Below is for demo purposes only remove it later
-func (p *Plugin) handleGetMe(w http.ResponseWriter, r *http.Request) {
-	mattermostUserID := r.Header.Get(constants.HeaderMattermostUserID)
-
-	userDetails, err := p.API.GetUser(mattermostUserID)
-	if err != nil {
-		p.API.LogError(constants.ErrorFetchingUserDetails, constants.Error, err.Error())
-		p.handleError(w, r, &serializers.Error{Code: http.StatusInternalServerError, Message: err.Error()})
-		return
-	}
-
-	p.writeJSON(w, http.StatusOK, userDetails)
-}
-
-// TODO: Below is for demo purposes only remove it later
-func (p *Plugin) handleGetDummyPosts(w http.ResponseWriter, r *http.Request) {
-	posts, statusCode, err := p.Client.GetMockPosts()
-	if err != nil {
-		p.API.LogWarn(constants.ErrorFetchingDummyPosts, constants.Error, err.Error())
-		p.handleError(w, r, &serializers.Error{Code: statusCode, Message: err.Error()})
-		return
-	}
-
-	p.writeJSON(w, statusCode, posts)
+	_ = p.router.PathPrefix(constants.APIPrefix).Subrouter()
 }
 
 // writeJSON handles writing HTTP JSON response

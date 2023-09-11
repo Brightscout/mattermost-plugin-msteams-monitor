@@ -10,7 +10,7 @@ import (
 	"github.com/mattermost/mattermost-server/v6/model"
 	"github.com/mattermost/mattermost-server/v6/plugin"
 
-	"github.com/mattermost/mattermost-plugin-template/server/constants"
+	"github.com/brightscout/mattermost-plugin-msteams-monitor/server/constants"
 )
 
 type HandlerFunc func(p *Plugin, c *plugin.Context, commandArgs *model.CommandArgs, args ...string) (*model.CommandResponse, *model.AppError)
@@ -41,12 +41,12 @@ func (ch *Handler) Handle(p *Plugin, c *plugin.Context, commandArgs *model.Comma
 }
 
 func (p *Plugin) getAutoCompleteData() *model.AutocompleteData {
-	exampleCommand := model.NewAutocompleteData(constants.CommandTriggerName, "[command]", fmt.Sprintf("Available commands: %s", constants.CommandHelp))
+	cmd := model.NewAutocompleteData(constants.CommandTriggerName, "[command]", fmt.Sprintf("Available commands: %s", constants.CommandHelp))
 
 	help := model.NewAutocompleteData(constants.CommandHelp, "", fmt.Sprintf("Show %s slash command help", constants.CommandTriggerName))
-	exampleCommand.AddCommand(help)
+	cmd.AddCommand(help)
 
-	return exampleCommand
+	return cmd
 }
 
 func (p *Plugin) getCommand() (*model.Command, error) {
