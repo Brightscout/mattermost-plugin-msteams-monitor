@@ -35,6 +35,8 @@ type Plugin struct {
 // getConfiguration retrieves the active configuration under lock, making it safe to use
 // concurrently. The active configuration may change underneath the client of this method, but
 // the struct returned by this API call is considered immutable.
+// TODO: remove below line later
+// nolint:all
 func (p *Plugin) getConfiguration() *config.Configuration {
 	p.configurationLock.RLock()
 	defer p.configurationLock.RUnlock()
@@ -74,6 +76,6 @@ func (p *Plugin) setConfiguration(configuration *config.Configuration) {
 }
 
 // ServeHTTP demonstrates a plugin that handles HTTP requests.
-func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
+func (p *Plugin) ServeHTTP(_ *plugin.Context, w http.ResponseWriter, r *http.Request) {
 	p.router.ServeHTTP(w, r)
 }

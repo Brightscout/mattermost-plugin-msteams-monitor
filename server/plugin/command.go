@@ -65,11 +65,11 @@ func (p *Plugin) getCommand() (*model.Command, error) {
 	}, nil
 }
 
-func helpCommand(p *Plugin, c *plugin.Context, commandArgs *model.CommandArgs, args ...string) (*model.CommandResponse, *model.AppError) {
+func helpCommand(p *Plugin, _ *plugin.Context, commandArgs *model.CommandArgs, _ ...string) (*model.CommandResponse, *model.AppError) {
 	return p.sendEphemeralPost(commandArgs, constants.HelpText)
 }
 
-func executeDefault(p *Plugin, c *plugin.Context, commandArgs *model.CommandArgs, args ...string) (*model.CommandResponse, *model.AppError) {
+func executeDefault(p *Plugin, _ *plugin.Context, commandArgs *model.CommandArgs, _ ...string) (*model.CommandResponse, *model.AppError) {
 	return p.sendEphemeralPost(commandArgs, constants.InvalidCommand+constants.HelpText)
 }
 

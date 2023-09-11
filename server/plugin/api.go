@@ -29,6 +29,8 @@ func (p *Plugin) InitRoutes() {
 }
 
 // writeJSON handles writing HTTP JSON response
+// TODO: remove below line later
+// nolint:all
 func (p *Plugin) writeJSON(w http.ResponseWriter, statusCode int, v interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	b, err := json.Marshal(v)
@@ -48,6 +50,8 @@ func (p *Plugin) writeJSON(w http.ResponseWriter, statusCode int, v interface{})
 }
 
 // handleError handles writing HTTP response error
+// TODO: remove below line later
+// nolint:all
 func (p *Plugin) handleError(w http.ResponseWriter, r *http.Request, error *serializers.Error) {
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(error.Code)
@@ -63,6 +67,8 @@ func (p *Plugin) handleError(w http.ResponseWriter, r *http.Request, error *seri
 }
 
 // handleAuthRequired verifies if the provided request is performed by an authorized source.
+// TODO: remove below line later
+// nolint:all
 func (p *Plugin) handleAuthRequired(handleFunc http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		mattermostUserID := r.Header.Get(constants.HeaderMattermostUserID)

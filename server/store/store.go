@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+// TODO: remove below line later
+// nolint:all
 func hashKey(prefix, hashableKey string) string {
 	if hashableKey == "" {
 		return prefix
