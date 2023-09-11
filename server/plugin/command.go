@@ -22,7 +22,8 @@ type Handler struct {
 
 var exampleCommandHandler = Handler{
 	handlers: map[string]HandlerFunc{
-		constants.CommandHelp: helpCommand,
+		constants.CommandHelp:    helpCommand,
+		constants.CommandConnect: connectCommand,
 	},
 	defaultHandler: executeDefault,
 }
@@ -42,6 +43,9 @@ func (ch *Handler) Handle(p *Plugin, c *plugin.Context, commandArgs *model.Comma
 
 func (p *Plugin) getAutoCompleteData() *model.AutocompleteData {
 	cmd := model.NewAutocompleteData(constants.CommandTriggerName, "[command]", fmt.Sprintf("Available commands: %s", constants.CommandHelp))
+
+	connect := model.NewAutocompleteData("connect", "", "Connect your Mattermost account to your MS Teams account")
+	cmd.AddCommand(connect)
 
 	help := model.NewAutocompleteData(constants.CommandHelp, "", fmt.Sprintf("Show %s slash command help", constants.CommandTriggerName))
 	cmd.AddCommand(help)
@@ -66,11 +70,20 @@ func (p *Plugin) getCommand() (*model.Command, error) {
 }
 
 func helpCommand(p *Plugin, _ *plugin.Context, commandArgs *model.CommandArgs, _ ...string) (*model.CommandResponse, *model.AppError) {
-	return p.sendEphemeralPost(commandArgs, constants.HelpText)
+	p.sendEphemeralPost(commandArgs, constants.HelpText)
+	return &model.CommandResponse{}, nil
+}
+
+// TODO: Complete connect command during oAuth completion
+func connectCommand(p *Plugin, _ *plugin.Context, commandArgs *model.CommandArgs, _ ...string) (*model.CommandResponse, *model.AppError) {
+	connectURL := "connect URL"
+	p.sendEphemeralPost(commandArgs, fmt.Sprintf("[Click here to connect your account](%s)", connectURL))
+	return &model.CommandResponse{}, nil
 }
 
 func executeDefault(p *Plugin, _ *plugin.Context, commandArgs *model.CommandArgs, _ ...string) (*model.CommandResponse, *model.AppError) {
-	return p.sendEphemeralPost(commandArgs, constants.InvalidCommand+constants.HelpText)
+	p.sendEphemeralPost(commandArgs, constants.InvalidCommand+constants.HelpText)
+	return &model.CommandResponse{}, nil
 }
 
 // Handles executing a slash command
